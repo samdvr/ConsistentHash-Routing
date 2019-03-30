@@ -1,3 +1,5 @@
+package com.samdvr.consistenthashrouting.consul
+
 import cats.effect.Async
 import com.samdvr.consistenthashrouting.common.ServiceDiscovery
 import consul.Consul

@@ -1,7 +1,10 @@
+package com.samdvr.consistenthashrouting.consul
+
 import cats.effect.{IO, Sync}
-import com.samdvr.consistenthashrouting.common._
+import com.samdvr.consistenthashrouting.common.{Algorithm, Router, ServiceDiscovery}
 import consul.Consul
 import consul.v1.common.Node
+
 import scala.concurrent.ExecutionContext
 
 object ConsulRouter {
