@@ -17,8 +17,7 @@ object Router {
   def apply[F[_], N](implicit s: ServiceDiscovery[F, N],
                      alg: Algorithm,
                      F: Sync[F]): Router[F, N] = (key: Int) => {
-    val nodes: F[List[N]] = s.healthyNodes
-    EitherT(nodes.map(fetchNode(key, _, alg)))
+    EitherT(s.healthyNodes.map(fetchNode(key, _, alg)))
   }
 
   private[common] def fetchNode[N](key: Int, nodes: List[N], alg: Algorithm): Either[Throwable, N] = {
