@@ -4,6 +4,8 @@ import cats.Applicative
 import cats.data.EitherT
 import cats.implicits._
 
+import scala.util.hashing.MurmurHash3
+
 trait ServiceDiscovery[F[_], N] {
   def healthyNodes: F[List[N]]
 }
@@ -36,4 +38,12 @@ object Router {
 
 }
 
+trait RouterOps {
 
+  implicit class Ops[F[_], N](r: Router[F, N]) {
+    def get(key: String): EitherT[F, Throwable, N] = r.get(MurmurHash3.stringHash(key))
+  }
+
+}
+
+object implicits extends RouterOps
