@@ -1,7 +1,7 @@
 package com.samdvr.consistenthashrouting.common
 
+import cats.Applicative
 import cats.data.EitherT
-import cats.effect.Sync
 import cats.implicits._
 
 trait ServiceDiscovery[F[_], N] {
@@ -16,7 +16,7 @@ trait Router[F[_], N] {
 object Router {
   def apply[F[_], N](implicit s: ServiceDiscovery[F, N],
                      alg: Algorithm,
-                     F: Sync[F]): Router[F, N] = (key: Int) => {
+                     F: Applicative[F]): Router[F, N] = (key: Int) => {
     EitherT(s.healthyNodes.map(fetchNode(key, _, alg)))
   }
 

@@ -1,6 +1,7 @@
 package com.samdvr.consistenthashrouting.common
 
-import cats.effect.{IO, Sync}
+import cats.Applicative
+import cats.effect.IO
 import org.scalatest.{FunSpec, Matchers}
 
 object TestServiceDiscovery extends ServiceDiscovery[IO, String] {
@@ -13,7 +14,7 @@ class RouterTest extends FunSpec with Matchers {
       it("returns a healthy node given hash key") {
         implicit val s: ServiceDiscovery[IO, String] = TestServiceDiscovery
         implicit val al = Algorithm.jumpConsistentHash
-        val router = Router(s, al, Sync[IO])
+        val router = Router(s, al, Applicative[IO])
         assert(router.get(1).value.unsafeRunSync().right.get == "127.0.0.1")
         assert(router.get(4).value.unsafeRunSync().right.get == "127.0.0.2")
       }
