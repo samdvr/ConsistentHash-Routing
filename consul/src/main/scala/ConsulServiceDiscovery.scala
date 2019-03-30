@@ -1,16 +1,12 @@
-package com.samdvr.consistenthashrouting.serviceDiscovery
-
 import cats.effect.Async
+import com.samdvr.consistenthashrouting.common.ServiceDiscovery
 import consul.Consul
 
 import scala.concurrent.ExecutionContext
 
-trait ServiceDiscovery[F[_]] {
-  def healthyNodes[N]: F[List[N]]
-}
-
-object ServiceDiscovery {
-  def forConsul[F[_]](consulClient: Consul)(implicit F: Async[F], ec: ExecutionContext): ServiceDiscovery[F] = new ServiceDiscovery[F] {
+object ConsulServiceDiscovery {
+  def apply[F[_]](consulClient: Consul)(implicit F: Async[F],
+                                        ec: ExecutionContext): ServiceDiscovery[F] = new ServiceDiscovery[F] {
     override def healthyNodes[N]: F[List[N]] = {
       import consulClient.v1._
       Async[F].async { cb =>

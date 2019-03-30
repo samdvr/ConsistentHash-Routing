@@ -1,4 +1,5 @@
-package com.samdvr.consistenthashrouting.algorithms
+package com.samdvr.consistenthashrouting.common
+
 
 trait Algorithm {
   def get(key: Int, nodeCount: Int): Int
@@ -7,7 +8,6 @@ trait Algorithm {
 object Algorithm {
   // Source: https://github.com/ssedano/jump-consistent-hash
   def jumpConsistentHash: Algorithm = new Algorithm {
-    private val UNSIGNED_MASK = 0x7fffffffffffffffL
     private val JUMP = 1L << 31
 
     private val CONSTANT = 2862933555777941757L
@@ -24,5 +24,6 @@ object Algorithm {
       }
       b.toInt
     }
+
   }
 }
